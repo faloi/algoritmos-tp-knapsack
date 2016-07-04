@@ -1,10 +1,22 @@
 class Knapsack::Item
-  attr_reader :number, :weight, :gain
+  attr_reader :number, :gain, :weight
 
-  def initialize(number, weight, gain)
+  def initialize(number, gain, weight)
     @number = number
-    @weight = weight
     @gain = gain
+    @weight = weight
+  end
+
+  def rate
+    gain.to_f / weight.to_f
+  end
+
+  def to_s
+    (state + [rate]).to_s
+  end
+
+  def inspect
+    to_s
   end
 
   def ==(other)

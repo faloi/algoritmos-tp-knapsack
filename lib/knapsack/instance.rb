@@ -1,7 +1,8 @@
 class Knapsack::Instance
-  attr_reader :items, :capacity, :optimal_value
+  attr_reader :name, :items, :capacity, :optimal_value
 
-  def initialize(items, capacity, optimal_value)
+  def initialize(name, items, capacity, optimal_value)
+    @name = name
     @items = items
     @capacity = capacity
     @optimal_value = optimal_value
@@ -9,7 +10,7 @@ class Knapsack::Instance
 
   def self.from_file(test_code)
     lines = read_instance_file test_code
-    self.new to_items(lines.drop(1).clip), lines.last.to_i, read_optimal_value(test_code)
+    self.new test_code, to_items(lines.drop(1).clip), lines.last.to_i, read_optimal_value(test_code)
   end
 
   private
