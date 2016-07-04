@@ -1,0 +1,6 @@
+Los datos están en el siguiente orden:
+1) Cantidad de ítems en la primera línea.
+2) Una línea por cada ítem. Cada una de ellas con 3 columnas separadas por espacios con número (el primero es 0), valor y peso.
+3) Capacidad de la mochila en la última línea.
+
+Todos los datos son enteros.
