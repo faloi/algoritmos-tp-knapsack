@@ -8,8 +8,8 @@ class Knapsack::Instance
   end
 
   def self.from_file(test_code)
-    lines = read_file test_code
-    self.new to_items(lines.drop(1).clip), lines.last.to_i, 0
+    lines = read_instance_file test_code
+    self.new to_items(lines.drop(1).clip), lines.last.to_i, read_optimal_value(test_code)
   end
 
   private
@@ -21,7 +21,12 @@ class Knapsack::Instance
     end
   end
 
-  def self.read_file(test_code)
+  def self.read_instance_file(test_code)
     File.readlines "tests/test_#{test_code}.in"
+  end
+
+  def self.read_optimal_value(test_code)
+    position = test_code[0...3].to_i
+    File.readlines('tests/opt_values.txt')[position].to_i
   end
 end
