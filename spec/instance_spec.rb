@@ -10,7 +10,7 @@ describe Knapsack::Instance do
 
     context 'parses the items' do
       it { expect(instance.items.size).to eq 30 }
-      it { expect(instance.items.last).to eq Knapsack::Item.new(264, 240) }
+      it { expect(instance.items.last).to eq Knapsack::Item.new(29, 264, 240) }
     end
 
     context 'parses the optimal value' do

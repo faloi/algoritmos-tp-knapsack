@@ -1,7 +1,8 @@
 class Knapsack::Item
-  attr_reader :weight, :gain
+  attr_reader :number, :weight, :gain
 
-  def initialize(weight, gain)
+  def initialize(number, weight, gain)
+    @number = number
     @weight = weight
     @gain = gain
   end

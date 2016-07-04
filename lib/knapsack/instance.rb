@@ -16,8 +16,8 @@ class Knapsack::Instance
 
   def self.to_items(item_lines)
     item_lines.map do |line|
-      data = line.split(' ')
-      Knapsack::Item.new data[1].to_i, data[2].to_i
+      data = line.split(' ').map(&:to_i)
+      Knapsack::Item.new *data
     end
   end
 
