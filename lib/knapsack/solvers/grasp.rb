@@ -1,9 +1,10 @@
 require_relative './base'
 
 class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
-  def initialize(max_iterations, max_without_improving)
+  def initialize(max_iterations, max_without_improving, local_search_heuristic)
     @max_iterations = max_iterations
     @max_without_improving = max_without_improving
+    @local_search_heuristic = local_search_heuristic
     @logs = []
   end
 
@@ -35,39 +36,9 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
     greedy_solution = Knapsack::Solvers::GreedyRandom.new.solve_for instance
     log "Started iteration ##{@iterations}, with greedy solution #{greedy_solution}"
 
-    remaining_items = instance.items - greedy_solution.items
+    best_combination = @local_search_heuristic.try_to_improve instance, greedy_solution
 
-    remaining_items.combination(2) do |pair|
-      index_to_remove = 0
-
-      while index_to_remove < greedy_solution.items.length
-        item_to_remove = greedy_solution.items[index_to_remove]
-
-        if can_be_replaced(item_to_remove, pair, greedy_solution.remaining_capacity) && should_be_replaced(item_to_remove, pair)
-          return replace_items_in_solution greedy_solution, index_to_remove, pair
-        else
-          index_to_remove += 1
-        end
-      end
-    end
-
-    greedy_solution
-  end
-
-  def should_be_replaced(item_to_remove, pair)
-    item_to_remove.gain < pair.sum(&:gain)
-  end
-
-  def can_be_replaced(item_to_remove, pair, remaining_capacity)
-    item_to_remove.weight + remaining_capacity >= pair.sum(&:weight)
-  end
-
-  def replace_items_in_solution(best_solution, index_to_remove, pair)
-    items = best_solution.items.clone
-    items.delete_at index_to_remove
-    items += pair
-
-    Knapsack::Solution.new(self, best_solution.instance, items)
+    Knapsack::Solution.new self, instance, best_combination
   end
 
   def log(event)
