@@ -7,7 +7,7 @@ describe Knapsack::Solvers::Grasp do
     context 'works' do
       let(:solution) { Knapsack::Solvers::Grasp.new(10, 3).solve_for instance }
       before { puts solution }
-      it { expect(1).to eq 1 }
+      it { expect(solution.value).to be <= instance.optimal_value }
     end
   end
 end
