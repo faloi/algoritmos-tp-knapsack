@@ -14,9 +14,13 @@ class Knapsack::Solution
   %{
 Solution for #{instance.name} using #{solver.name} solver...
 #{solver.info instance}
-Capacity: #{instance.capacity} / Value: #{value} / Optimal: #{instance.optimal_value} / Remaining: #{remaining_capacity}
+Capacity: #{instance.capacity} / Value: #{value} / Optimal: #{instance.optimal_value} (#{distance_to_optimal.round 2}% better) / Remaining: #{remaining_capacity}
 Items: #{items.map(&:number)}
   }
+  end
+
+  def distance_to_optimal
+    (instance.optimal_value - value.to_f) / instance.optimal_value * 100
   end
 
   def <=>(other)

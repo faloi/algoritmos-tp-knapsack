@@ -2,6 +2,7 @@ module Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
   class << self
     def try_to_improve(grasp, instance, initial_items, remaining_capacity)
       remaining_items = instance.items - initial_items
+      grasp.log "Will try to improve #{initial_items.map &:number}."
 
       remaining_items.combination(2) do |pair|
         index_to_remove = 0
@@ -11,9 +12,9 @@ module Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
 
           if can_be_replaced(item_to_remove, pair, remaining_capacity) && should_be_replaced(item_to_remove, pair)
             new_items, capacity_delta = replace_items_in_solution initial_items, index_to_remove, pair
-            grasp.log "Replaced #{item_to_remove} with #{pair}, improving gain by #{pair.sum(&:gain) - item_to_remove.gain}."
+            grasp.log "Replaced #{item_to_remove} with #{pair}, improving gain by #{pair.sum(&:gain) - item_to_remove.gain}.\nRemaining capacity: #{remaining_capacity - capacity_delta}."
 
-            return try_to_improve grasp, instance, new_items, remaining_capacity + capacity_delta
+            return try_to_improve grasp, instance, new_items, remaining_capacity - capacity_delta
           else
             index_to_remove += 1
           end

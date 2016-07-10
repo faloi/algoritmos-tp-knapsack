@@ -9,7 +9,7 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
   end
 
   def info(instance)
-    "Iterated #{@iterations} times.\n#{@logs.join "\n"}\n"
+    "Iterated #{@iterations} times.\n#{@logs.join "\n"}\n\nFinal solution:"
   end
 
   def compute_solution_for(instance)
@@ -22,6 +22,7 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
       new_solution = solve_iteration_for instance
 
       if new_solution > best_solution
+        log "Solution improved! New gain is #{new_solution.value}."
         best_solution = new_solution
       else
         without_improving += 1
@@ -33,7 +34,7 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
 
   def solve_iteration_for(instance)
     greedy_solution = Knapsack::Solvers::GreedyRandom.new.solve_for instance
-    log "\n------------------\nStarted iteration ##{@iterations}, with greedy solution #{greedy_solution}"
+    log "------------------\nStarted iteration ##{@iterations} - greedy solution value is #{greedy_solution.value}, with remaining capacity #{greedy_solution.remaining_capacity}."
 
     best_combination = @local_search_heuristic.try_to_improve self, instance, greedy_solution.items, greedy_solution.remaining_capacity
 
