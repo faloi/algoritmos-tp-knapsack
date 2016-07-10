@@ -1,4 +1,8 @@
-module Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
+require_relative './base_heuristic'
+
+class Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
+  extend Knapsack::Solvers::LocalSearch::BaseHeuristic
+
   class << self
     def try_to_improve(grasp, instance, initial_items, remaining_capacity)
       remaining_items = instance.items - initial_items
@@ -12,7 +16,7 @@ module Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
 
           if can_be_replaced(item_to_remove, pair, remaining_capacity) && should_be_replaced(item_to_remove, pair)
             new_items, capacity_delta = replace_items_in_solution initial_items, index_to_remove, pair
-            grasp.log "Replaced #{item_to_remove} with #{pair}, improving gain by #{pair.sum(&:gain) - item_to_remove.gain}.\nRemaining capacity: #{remaining_capacity - capacity_delta}."
+            log grasp, [item_to_remove], pair, remaining_capacity - capacity_delta
 
             return try_to_improve grasp, instance, new_items, remaining_capacity - capacity_delta
           else
@@ -24,19 +28,6 @@ module Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic
       fill_remaining_capacity(initial_items, remaining_capacity, remaining_items)
 
       initial_items
-    end
-
-    def fill_remaining_capacity(initial_items, remaining_capacity, remaining_items)
-      while remaining_capacity > 0 && remaining_items.any?
-        next_index = 0
-        next_item = remaining_items[next_index]
-        remaining_items.delete_at next_index
-
-        if next_item.weight <= remaining_capacity
-          initial_items << next_item
-          remaining_capacity -= next_item.weight
-        end
-      end
     end
 
     def should_be_replaced(item_to_remove, pair)
