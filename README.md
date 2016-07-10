@@ -4,7 +4,12 @@ Concretamente deberán cumplir con los siguientes puntos.
 
 1) Desarrollar un GRASP para el problema de la mochila. Para el mismo se deberán proponer dos heurísticas de búsqueda local distintas y elegir una probando cual funciona mejor en el marco del grasp. Los criterios de corte del GRASP deberían estar adaptados a cada una ya que si una es produce soluciones de mejor calidad pero a mayor costo de tiempo computacional, quizás convenga reducir la cantidad de iteraciones GRASP totales.
 
+* Sacar 2 y meter entre 1 y 3 - hay que pensar como decido si meto 1, 2 o 3 (capaz con Greedy).
+
 2) Decidir un criterio de subdivisión en problemas (o branching). Ejemplos: incluir o no incluir un determinado ítem en la solución, incluir o no dos ítems determinados en la solucion.
+
+* El de peor tasa - pensando en que la rama que SI lo elige va a ser muy mala y la voy a podar.
+* El de mejor tasa - pensando en que la rama que NO lo elige va a ser muy mala y la voy a podar.
 
 3) De acuerdo al criterio determinado en el punto anterior, dar un algoritmo para elegir concretamente en cada nodo del árbol como dividir el subproblema. Volviendo a los ejemplos del punto anterior, en el primer caso su algoritmo deberá decidir cuál de los ítems aún no usados será el elegido para dividir el nodo actual. En el caso del segundo ejemplo, se tratará de elegir entre los pares de ítems para los que aún no se tomó una decisión.
 
