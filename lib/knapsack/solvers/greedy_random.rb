@@ -23,6 +23,6 @@ class Knapsack::Solvers::GreedyRandom < Knapsack::Solvers::Base
   private
 
   def pick_random_index(items)
-    rand [items.length, 5].min
+    rand [items.length, items.length * 0.1].min
   end
 end
