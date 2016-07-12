@@ -1,27 +1,38 @@
+require 'timeout'
 require_relative './base'
 
 class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
+  def initialize(max_minutes_to_run)
+    @max_minutes_to_run = max_minutes_to_run
+  end
+
   def compute_solution_for(instance)
     to_visit = [TreeNode.new(instance.items.sort_by(&:rate).reverse, instance.capacity, 0)]
     lower_bound = 0
 
-    while to_visit.any?
-      current_node = to_visit.shift
+    begin
+      Timeout::timeout(@max_minutes_to_run * 60) {
+        while to_visit.any?
+          current_node = to_visit.shift
 
-      next unless current_node.has_many_items?
-      next if current_node.capacity < 0
-      next if current_node.upper < lower_bound
+          next unless current_node.has_many_items?
+          next if current_node.capacity < 0
+          next if current_node.upper < lower_bound
 
-      if current_node.lower > lower_bound
-        lower_bound = current_node.lower
-      end
+          if current_node.lower > lower_bound
+            lower_bound = current_node.lower
+          end
 
-      if current_node.lower != current_node.upper
-        to_visit += current_node.next_level
-      end
+          if current_node.lower != current_node.upper
+            to_visit += current_node.next_level
+          end
+        end
+
+        lower_bound
+      }
+    rescue Timeout::Error
+      lower_bound
     end
-
-    lower_bound
   end
 end
 
