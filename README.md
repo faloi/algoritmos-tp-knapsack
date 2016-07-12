@@ -17,7 +17,11 @@ Será necesario que argumenten la opción elegida. En ese sentido, será deseabl
 
 4) Desarrollar una relajación para el problema de la mochila que utilice la información que se tiene en cada nodo acerca de las soluciones allí consideradas.
 
+* Mochila fraccionaria - basicamente meter una fraccion del ultimo para completar la mochila.
+
 5) Desarrollar una "heurística primal", es decir una heurística que, partiendo de la información que se tiene en cada nodo acerca de las solciones allí consideradas, genera una solución apta para ese nodo y de la mejor calidad posible en cuanto a la función objetivo.
+
+* Esto es ejecutar el Greedy.
 
 6) Utilizar lo desarrollado en los puntos anteriores en un Branch and bound, es decir un algoritmo que, con algun criterio a desarrollar por ustedes (que puede ser trivial) tome el proximo nodo a analizar, ejecute para él la heurisitica primal y la relajación, propague esta información a los ancestros y genere dos nuevos nodos o bien pode el subarbol actual.
 

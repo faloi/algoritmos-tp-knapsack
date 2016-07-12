@@ -13,6 +13,10 @@ class Knapsack::Instance
     self.new test_code, to_items(lines.drop(1).clip), lines.last.to_i, read_optimal_value(test_code)
   end
 
+  def self.from_code(test_code)
+    from_file test_code.to_s.rjust(3, '0')
+  end
+
   def self.all
     prefix_length = 5
     suffix_length = 3
@@ -33,7 +37,11 @@ class Knapsack::Instance
   end
 
   def self.read_instance_file(test_code)
-    File.readlines (make_path "test_#{test_code}.in")
+    File.readlines (make_path file_name(test_code))
+  end
+
+  def self.file_name(test_code)
+    Dir.entries(make_path).find {|x| x.include? test_code}
   end
 
   def self.read_optimal_value(test_code)
