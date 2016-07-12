@@ -4,6 +4,7 @@ require_relative './base'
 class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
   def initialize(max_minutes_to_run)
     @max_minutes_to_run = max_minutes_to_run
+    @visited_nodes = 0
   end
 
   def compute_solution_for(instance)
@@ -14,6 +15,7 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
       Timeout::timeout(@max_minutes_to_run * 60) {
         while to_visit.any?
           current_node = to_visit.shift
+          @visited_nodes += 1
 
           next unless current_node.has_many_items?
           next if current_node.capacity < 0
@@ -21,6 +23,7 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
 
           if current_node.lower > lower_bound
             lower_bound = current_node.lower
+            puts "Maximum reached! Node: #{@visited_nodes}, value: #{lower_bound}."
           end
 
           if current_node.lower != current_node.upper
@@ -32,6 +35,8 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
       }
     rescue Timeout::Error
       lower_bound
+    ensure
+      puts "Visited #{@visited_nodes} nodes."
     end
   end
 end
