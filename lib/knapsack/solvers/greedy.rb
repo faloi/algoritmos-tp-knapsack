@@ -9,7 +9,7 @@ class Knapsack::Solvers::Greedy < Knapsack::Solvers::Base
     greedy, (next_item, *), remaining_capacity = compute_for instance
 
     lower_bound = greedy.sum(&:gain)
-    relaxed_problem_plus = remaining_capacity > 0 ? next_item.rate * remaining_capacity : 0
+    relaxed_problem_plus = remaining_capacity > 0 && next_item ? next_item.rate * remaining_capacity : 0
 
     [lower_bound, lower_bound + relaxed_problem_plus]
   end

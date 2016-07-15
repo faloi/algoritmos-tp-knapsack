@@ -1,9 +1,10 @@
 require_relative './base'
 
 class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
-  def initialize(max_iterations, max_without_improving, local_search_heuristic)
+  def initialize(max_iterations, max_without_improving, max_minutes_to_run, local_search_heuristic)
     @max_iterations = max_iterations
     @max_without_improving = max_without_improving
+    @max_minutes_to_run = max_minutes_to_run
     @local_search_heuristic = local_search_heuristic
     @logs = []
   end
@@ -17,19 +18,25 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
     without_improving = 0
     best_solution = solve_iteration_for instance
 
-    while @iterations < @max_iterations && without_improving < @max_without_improving
-      @iterations += 1
-      new_solution = solve_iteration_for instance
+    begin
+      Timeout::timeout(@max_minutes_to_run * 60) {
+        while @iterations < @max_iterations && without_improving < @max_without_improving
+          @iterations += 1
+          new_solution = solve_iteration_for instance
 
-      if new_solution > best_solution
-        log "Solution improved! New gain is #{new_solution.value}."
-        best_solution = new_solution
-      else
-        without_improving += 1
-      end
+          if new_solution > best_solution
+            log "Solution improved! New gain is #{new_solution.value}."
+            best_solution = new_solution
+          else
+            without_improving += 1
+          end
+        end
+
+        best_solution.items
+      }
+    rescue Timeout::Error
+      best_solution.items
     end
-
-    best_solution.items
   end
 
   def solve_iteration_for(instance)

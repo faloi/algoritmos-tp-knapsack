@@ -1,4 +1,3 @@
-require 'timeout'
 require_relative './base'
 
 class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
@@ -8,7 +7,7 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
   end
 
   def compute_solution_for(instance)
-    to_visit = [TreeNode.new(instance.items.sort_by(&:rate).reverse, instance.capacity, 0)]
+    to_visit = [TreeNode.new(sort_items_by_best_rate(instance), instance.capacity, 0)]
     lower_bound = 0
 
     begin
@@ -38,6 +37,10 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
     ensure
       puts "Visited #{@visited_nodes} nodes."
     end
+  end
+
+  def sort_items_by_best_rate(instance)
+    instance.items.sort_by(&:rate).reverse
   end
 end
 
