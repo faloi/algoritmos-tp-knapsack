@@ -26,4 +26,8 @@ Items: #{items.map(&:number)}
   def <=>(other)
     value <=> other.value
   end
+
+  def self.empty(solver, instance)
+    self.new solver, instance, []
+  end
 end

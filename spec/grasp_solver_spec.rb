@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Knapsack::Solvers::Grasp do
   describe '#solve_for' do
-    let(:instance) { Knapsack::Instance.from_code 23 }
+    let(:instance) { Knapsack::Instance.from_code 22 }
 
     context 'remove one add two' do
-      let(:solution) { Knapsack::Solvers::Grasp.new(1, 3, 5, Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic).solve_for instance }
+      let(:solution) { Knapsack::Solvers::Grasp.new(1, 3, 1, Knapsack::Solvers::LocalSearch::RemoveOneAddTwoHeuristic).solve_for instance }
       before { puts solution }
       it { expect(solution.value).to be <= instance.optimal_value }
     end

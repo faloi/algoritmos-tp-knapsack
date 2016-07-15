@@ -14,13 +14,13 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
   end
 
   def compute_solution_for(instance)
-    @iterations = 1
+    @iterations = 0
     without_improving = 0
-    best_solution = solve_iteration_for instance
+    best_solution = Knapsack::Solution.empty self, instance
 
     begin
-      Timeout::timeout(@max_minutes_to_run * 60) {
-        while @iterations < @max_iterations && without_improving < @max_without_improving
+      Timeout::timeout(@max_minutes_to_run * 60) do
+        while @iterations <= @max_iterations && without_improving < @max_without_improving
           @iterations += 1
           new_solution = solve_iteration_for instance
 
@@ -31,12 +31,12 @@ class Knapsack::Solvers::Grasp < Knapsack::Solvers::Base
             without_improving += 1
           end
         end
-
-        best_solution.items
-      }
+      end
     rescue Timeout::Error
-      best_solution.items
+      # ignored
     end
+
+    best_solution.items
   end
 
   def solve_iteration_for(instance)
