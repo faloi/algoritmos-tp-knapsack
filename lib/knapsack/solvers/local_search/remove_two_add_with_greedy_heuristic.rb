@@ -6,6 +6,7 @@ class Knapsack::Solvers::LocalSearch::RemoveTwoAddWithGreedyHeuristic
   class << self
     def try_to_improve(grasp, instance, initial_items, remaining_capacity)
       remaining_items = (instance.items - initial_items).sort_by(&:rate).reverse
+      puts "Will try to improve instance of #{initial_items.size} items, remaining capacity is #{remaining_capacity}, gain is #{initial_items.sum &:gain}, distance to optimal is #{(instance.optimal_value - initial_items.sum(&:gain).to_f) / instance.optimal_value * 100}%.\n"
       grasp.log "Will try to improve #{initial_items.map &:number}."
 
       initial_items.combination(2) do |items_to_remove|
