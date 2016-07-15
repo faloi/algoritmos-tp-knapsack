@@ -11,7 +11,7 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
     lower_bound = 0
 
     begin
-      Timeout::timeout(@max_minutes_to_run * 60) {
+      Timeout::timeout(@max_minutes_to_run * 60) do
         while to_visit.any?
           current_node = to_visit.shift
           @visited_nodes += 1
@@ -29,14 +29,14 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
             to_visit += current_node.next_level
           end
         end
-
-        lower_bound
-      }
+      end
     rescue Timeout::Error
-      lower_bound
-    ensure
-      puts "Visited #{@visited_nodes} nodes."
+      # ignored
     end
+
+    puts "Visited #{@visited_nodes} nodes."
+
+    lower_bound
   end
 
   def sort_items_by_best_rate(instance)
