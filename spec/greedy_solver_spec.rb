@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Knapsack::Solvers::Greedy do
-  let(:instance) { Knapsack::Instance.from_file '000_3e1' }
+  let(:instance) { Knapsack::Instance.from_code 0 }
   let(:greedy) { Knapsack::Solvers::Greedy.new }
 
   describe '#solve_for' do
@@ -15,5 +15,10 @@ describe Knapsack::Solvers::Greedy do
     before { puts bounds.to_s }
     it { expect(bounds.first).to be <= instance.optimal_value }
     it { expect(bounds.last).to be >= instance.optimal_value }
+  end
+
+  describe 'data for graphics' do
+    before { puts generate_data_for_graphics(greedy) }
+    it { }
   end
 end
