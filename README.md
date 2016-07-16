@@ -1,3 +1,11 @@
+# Cómo ejecutar los ejemplos
+
+La forma más rápida es ejecutar alguno de los archivos de prueba, aunque esto tiene como prerrequisito haber instalado **rspec** en el sistema. Para correr entonces las pruebas del solver Greedy habría que ejecutar el comando `rspec spec/greedy_solver_spec.rb`.
+
+Si no se desea instalar **rspec**, se puede simplemente ejecutar el archivo raíz, mediante el comando `ruby lib/knapsack.rb`. En el mismo archivo se puede encontrar más información acerca de cómo cambiar el solver o la instancia de prueba.
+
+# Consignas
+
 El objetivo de este trabajo es desarrollar sencillos algoritmos Branch and Bound y metaheuristica GRASP para el problema de la mochila binaria.
 
 Concretamente deberán cumplir con los siguientes puntos.
