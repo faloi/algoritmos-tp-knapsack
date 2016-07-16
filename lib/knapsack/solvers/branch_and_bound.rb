@@ -6,7 +6,7 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
     @visited_nodes = 0
   end
 
-  def compute_solution_for(instance)
+  def solve_for(instance)
     to_visit = [TreeNode.new(sort_items_by_best_rate(instance), instance.capacity, 0)]
     lower_bound = 0
 
@@ -36,11 +36,20 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
 
     puts "Visited #{@visited_nodes} nodes."
 
-    lower_bound
+    BBSolution.new instance, lower_bound
   end
 
   def sort_items_by_best_rate(instance)
     instance.items.sort_by(&:rate).reverse
+  end
+end
+
+class BBSolution
+  attr_reader :instance, :value
+
+  def initialize(instance, value)
+    @instance = instance
+    @value = value
   end
 end
 
