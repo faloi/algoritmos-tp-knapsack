@@ -42,6 +42,10 @@ class Knapsack::Solvers::BranchAndBound < Knapsack::Solvers::Base
   def sort_items_by_best_rate(instance)
     instance.items.sort_by(&:rate).reverse
   end
+
+  def sort_items_by_worse_rate(instance)
+    instance.items.sort_by(&:rate)
+  end
 end
 
 class BBSolution
